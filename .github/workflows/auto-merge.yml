@@ -16,11 +16,11 @@ jobs:
 
       - name: merge branch
         run: |
-          git status
+          current_branch=$(git branch --show-current)
           git pull
           git checkout -b master origin/master --
-          git remote show origin
-          echo "exec: git merge origin/$(git branch --show-current)"
-          git merge origin/$(git branch --show-current)
+          #git remote show origin
+          echo "exec: git merge origin/${current_branch}"
+          git merge origin/${current_branch}
           git remote set-url origin git@github.com:missuor/dev.git
           git push origin master
