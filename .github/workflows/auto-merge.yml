@@ -18,5 +18,6 @@ jobs:
         run: |
           git pull
           git checkout -b master origin/master --
+          git remote show origin
           git merge origin/$(git branch --show-current)
           git push
