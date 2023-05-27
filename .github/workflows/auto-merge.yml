@@ -1,0 +1,16 @@
+name: Merge any public branch to master
+on:
+  push:
+    branches:
+      - 'public/*'
+jobs:
+  merge-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: merge branch
+        run: |
+          git pull
+          git checkout -b master origin/master --
+          git merge origin/$(git branch --show-current)
