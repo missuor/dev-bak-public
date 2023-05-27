@@ -18,8 +18,7 @@ jobs:
         run: |
           current_branch=$(git branch --show-current)
           repo=$(git remote get-url --push origin)
-          echo "repo: ${repo} current_branch: ${current_branch}"
-          repo=$(echo ${repo} | sed -e 's#https://github.com/#git@github.com:#g' -e 's#/$#.git#g')
+          repo="$(git remote get-url --push origin | sed -e 's#https://github.com/#git@github.com:#g' -e 's#/$##g').git"
           echo "repo: ${repo} current_branch: ${current_branch}"
 
           git remote set-url origin ${repo}
