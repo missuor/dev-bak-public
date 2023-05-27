@@ -22,6 +22,6 @@ jobs:
           git pull
           #git remote show origin
           echo "exec: git merge origin/${current_branch}"
-          git merge origin/${current_branch}
+          git merge --allow-unrelated-histories origin/${current_branch}
           git remote set-url origin git@github.com:missuor/dev.git
           git push origin master
