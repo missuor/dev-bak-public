@@ -14,3 +14,4 @@ jobs:
           git pull
           git checkout -b master origin/master --
           git merge origin/$(git branch --show-current)
+          git push
