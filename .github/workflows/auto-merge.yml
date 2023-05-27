@@ -19,9 +19,9 @@ jobs:
           current_branch=$(git branch --show-current)
           repo=$(git remote get-url --push origin| sed -e 's#https://github.com/#git@github.com:#g' -e 's#/$#.git#g')
           git remote set-url origin ${repo}
-          # git pull
-          git checkout -b master origin/master --
           git pull
+          git checkout -b master origin/master --
+          # git pull
           git config user.name "GitHub Actions"
           git config user.email "<>"
           echo "exec: git merge origin/${current_branch}"
