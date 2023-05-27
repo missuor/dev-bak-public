@@ -29,7 +29,8 @@ jobs:
           echo "exec: git merge origin/${current_branch}"
           git status
           git diff
-          git merge --allow-unrelated-histories origin/${current_branch} --no-edit
+          git merge --allow-unrelated-histories origin/${current_branch} --no-edit || echo err
+          cat .github/workflows/auto-merge.yml
           git status
           git diff
           git push origin master
