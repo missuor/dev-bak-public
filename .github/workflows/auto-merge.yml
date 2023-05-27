@@ -34,7 +34,6 @@ jobs:
           git diff
           git push origin master
 
-
           # git remote add public_repo $(echo ${repo} | sed 's/\.git/-public.git/g')
           # #git pull
           # #git fetch public_repo
