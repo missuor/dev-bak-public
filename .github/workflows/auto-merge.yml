@@ -12,13 +12,15 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.PRIVATE_KEY }}
     
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v3
 
       - name: merge branch
         run: |
+          git status
           git pull
           git checkout -b master origin/master --
           git remote show origin
+          echo "exec: git merge origin/$(git branch --show-current)"
           git merge origin/$(git branch --show-current)
           git remote set-url origin git@github.com:missuor/dev.git
-          git push
+          git push origin master
