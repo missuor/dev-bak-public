@@ -21,9 +21,9 @@ jobs:
           git checkout -b master origin/master --
           git pull
           #git remote show origin
+          git config user.name "GitHub Actions"
+          git config user.email "<>"
           echo "exec: git merge origin/${current_branch}"
           git merge --allow-unrelated-histories origin/${current_branch}
           git remote set-url origin git@github.com:missuor/dev.git
-          git config user.name "GitHub Actions"
-          git config user.email "<>"
           git push origin master
