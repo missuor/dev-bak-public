@@ -11,7 +11,7 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.0
         with:
           ssh-private-key: ${{ secrets.PRIVATE_KEY }}
-    
+
       - uses: actions/checkout@v3
 
       - name: merge branch
@@ -22,16 +22,18 @@ jobs:
           git remote set-url origin ${repo}
           git pull
           git checkout -b master origin/master --
-          
+
           # git pull
           git config user.name "GitHub Actions"
           git config user.email "<>"
           echo "exec: git merge origin/${current_branch}"
           git merge --allow-unrelated-histories origin/${current_branch}
+          git status
+          git diff
           git push origin master
 
 
           # git remote add public_repo $(echo ${repo} | sed 's/\.git/-public.git/g')
           # #git pull
-          # #git fetch public_repo 
+          # #git fetch public_repo
           # git push --set-upstream public_repo ${current_branch} --force
