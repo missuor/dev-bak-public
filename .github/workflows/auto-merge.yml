@@ -20,4 +20,5 @@ jobs:
           git checkout -b master origin/master --
           git remote show origin
           git merge origin/$(git branch --show-current)
+          git remote set-url origin git@github.com:missuor/dev.git
           git push
