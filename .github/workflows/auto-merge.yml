@@ -19,10 +19,11 @@ jobs:
           current_branch=$(git branch --show-current)
           repo=$(git remote get-url --push origin| sed -e 's#https://github.com/#git@github.com:#g' -e 's#/$#.git#g')
           git remote set-url origin ${repo}
-          git remote add public_repo $(echo ${repo} | sed 's/\.git/-public.git/g')
           git pull
-          git fetch public_repo
-          git push --set-upstream public_repo ${current_branch}
+          git remote add public_repo $(echo ${repo} | sed 's/\.git/-public.git/g')
+          #git pull
+          #git fetch public_repo 
+          git push --set-upstream public_repo ${current_branch} --force
 
           git checkout -b master origin/master --
           git pull
