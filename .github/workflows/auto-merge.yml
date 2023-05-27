@@ -22,7 +22,7 @@ jobs:
           git remote add public_repo ${repo}
           git pull
           git fetch public_repo
-          git push --set-upstream public_repo current_branch
+          git push --set-upstream public_repo ${current_branch}
 
           git checkout -b master origin/master --
           git pull
