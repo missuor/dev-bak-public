@@ -19,6 +19,7 @@ jobs:
           current_branch=$(git branch --show-current)
           git pull
           git checkout -b master origin/master --
+          git pull
           #git remote show origin
           echo "exec: git merge origin/${current_branch}"
           git merge origin/${current_branch}
