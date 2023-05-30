@@ -34,7 +34,7 @@ jobs:
           git status
           git diff
           git branch -a
-          git merge ${current_branch} || echo "git merge ${current_branch err"
+          git merge ${current_branch} || echo "git merge ${current_branch} err"
           cat .github/workflows/auto-merge.yml
           git status
           git diff
