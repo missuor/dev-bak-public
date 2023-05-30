@@ -22,7 +22,7 @@ jobs:
           #  Time zone to use. Default is UTC.
           time_zone: "Asia/Shanghai"
           #  Branch label
-          label_name: "merge-ready"
+          # label_name: "merge-ready"
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
