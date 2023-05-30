@@ -83,7 +83,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Up Merge
-      uses: bambamboole/gha-upmerge@master
+      uses: bambamboole/gha-upmerge@main
       with:
         from_branch: 'public/images'
         to_branch: 'master'
