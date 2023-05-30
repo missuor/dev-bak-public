@@ -111,7 +111,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
       - name: Merge staging -> master
         uses: devmasx/merge-branch@master
         with:
@@ -125,6 +124,6 @@ jobs:
         env:
           REPO: git@github.com:missuor/dev-public.git
           BRANCH: public/images
-          FOLDER: ''
+          FOLDER: '.'
           SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
