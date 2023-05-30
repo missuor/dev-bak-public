@@ -111,8 +111,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          repository: git@github.com:missuor/dev.git
       - name: Merge staging -> master
         uses: devmasx/merge-branch@master
         with:
