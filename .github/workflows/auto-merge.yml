@@ -7,35 +7,11 @@ jobs:
   merge-branch:
     runs-on: ubuntu-latest
     steps:
-      - name: Add SSH key
-        uses: webfactory/ssh-agent@v0.5.0
-        with:
-          ssh-private-key: ${{ secrets.PRIVATE_KEY }}
-
-      - uses: actions/checkout@v3
-
-      # https://github.com/marketplace/actions/github-pull-request-action
-      - name: create pull request
-        id: open-pr
-        uses: repo-sync/pull-request@v2
-        with:
-          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          destination_branch: ${{ github.event.repository.default_branch }}
-          pr_title: "[Automated] Merge ${{ github.ref_name }} into ${{ github.event.repository.default_branch }}"
-          pr_body: "Automated Pull Request"
-          # pr_reviewer: "jessesquires"
-          # pr_assignee: "jessesquires"
-
-     # https://github.com/marketplace/actions/enable-pull-request-automerge
-      - name: enable automerge
-        if: steps.open-pr.outputs.pr_number != ''
-        uses: peter-evans/enable-pull-request-automerge@v2
-        with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          pull-request-number: ${{ steps.open-pr.outputs.pr_number }}
-          merge-method: merge
-
-
+      # - name: Add SSH key
+      #   uses: webfactory/ssh-agent@v0.5.0
+      #   with:
+      #     ssh-private-key: ${{ secrets.PRIVATE_KEY }}
+      # - uses: actions/checkout@v3
       # - name: merge branch
       #   run: |
       #     ssh -T git@github.com || echo "ssh -T git@github.com err"
@@ -45,7 +21,6 @@ jobs:
       #     repo="$(git remote get-url --push origin | sed -e 's#https://github.com/#git@github.com:#g' -e 's#/$##g').git"
       #     echo "repo: ${repo} current_branch: ${current_branch}"
       #     git log|head -20
-
       #     git remote set-url origin ${repo}
       #     git pull
       #     git checkout -b master origin/master --
@@ -53,7 +28,6 @@ jobs:
       #     echo "exec git pull"
       #     git pull
       #     git log|head -20
-
       #     git config user.name "GitHub Actions"
       #     git config user.email "<>"
       #     echo "exec: git merge ${current_branch}"
@@ -65,8 +39,54 @@ jobs:
       #     git status
       #     git diff
       #     git push || echo "git push err"
-
       #     # git remote add public_repo $(echo ${repo} | sed 's/\.git/-public.git/g')
       #     # #git pull
       #     # #git fetch public_repo
       #     # git push --set-upstream public_repo ${current_branch} --force
+
+
+
+
+    #   #  创建个人token https://docs.github.com/zh/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+    #   # https://github.com/settings/tokens?type=beta
+
+    #   # 创建开放仓库，在仓库setting页面启用自动合并 Allow auto-merge
+
+    #   - name: git checkout
+    #     uses: actions/checkout@v3
+    #     with:
+    #       token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+    #   # https://github.com/marketplace/actions/github-pull-request-action
+    #   - name: create pull request
+    #     id: open-pr
+    #     uses: repo-sync/pull-request@v2
+    #     with:
+    #       github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+    #       destination_branch: ${{ github.event.repository.default_branch }}
+    #       pr_title: "[Automated] Merge ${{ github.ref_name }} into ${{ github.event.repository.default_branch }}"
+    #       pr_body: "Automated Pull Request"
+    #       # pr_reviewer: "jessesquires"
+    #       # pr_assignee: "jessesquires"
+
+    #  # https://github.com/marketplace/actions/enable-pull-request-automerge
+    #   - name: enable automerge
+    #     if: steps.open-pr.outputs.pr_number != ''
+    #     uses: peter-evans/enable-pull-request-automerge@v2
+    #     with:
+    #       token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+    #       pull-request-number: ${{ steps.open-pr.outputs.pr_number }}
+    #       merge-method: merge
+
+
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Up Merge
+      uses: bambamboole/gha-upmerge@master
+      with:
+        from_branch: 'public/images'
+        to_branch: 'master'
+      env:
+        GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
