@@ -8,6 +8,7 @@ on:
     # https://crontab.guru/every-hour
     - cron: 10 11 * * *
 
+
 jobs:
   merge_schedule:
     runs-on: ubuntu-latest
