@@ -64,7 +64,7 @@ jobs:
 
 
           if [[ -z "${DESTINATION_REPO}" ]]; then
-            DESTINATION_REPO_REPLACE_OLD="${DESTINATION_REPO_REPLACE_OLD:='-public'}"
+            DESTINATION_REPO_REPLACE_OLD="${DESTINATION_REPO_REPLACE_OLD:=-public}"
             DESTINATION_REPO="${SOURCE_REPO/${DESTINATION_REPO_REPLACE_OLD}/${DESTINATION_REPO_REPLACE_NEW}/}"
           fi
           if [[ -z "${DESTINATION_BRANCH}" ]]; then
