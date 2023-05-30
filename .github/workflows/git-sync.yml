@@ -29,11 +29,11 @@ jobs:
           which git || echo "no git"
           which ssh || echo "no ssh"
 
-      - name: git-sync
-        uses: wei/git-sync@v3
-        with:
-          source_repo: "missuor/dev-public"
-          source_branch: "public/images"
-          destination_repo: "missuor/dev"
-          destination_branch: "public/images"
-          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+      # - name: git-sync
+      #   uses: wei/git-sync@v3
+      #   with:
+      #     source_repo: "missuor/dev-public"
+      #     source_branch: "public/images"
+      #     destination_repo: "missuor/dev"
+      #     destination_branch: "public/images"
+      #     ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
