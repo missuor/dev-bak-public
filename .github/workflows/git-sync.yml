@@ -61,23 +61,26 @@ jobs:
           SOURCE_REPO=${SOURCE_REPO:=${GITHUB_REPOSITORY}}
           SOURCE_BRANCH=${SOURCE_BRANCH:=${GITHUB_REF_NAME}}
 
-          if [[ -z "${DESTINATION_REPO}" ]]; then
-            DESTINATION_REPO=${SOURCE_REPO}
-            DESTINATION_REPO_REPLACE_OLD="${DESTINATION_REPO_REPLACE_OLD:='-public'}"
-            if [[ -z "${DESTINATION_REPO}" && -n "${DESTINATION_REPO_REPLACE_OLD}" ]]; then
-              DESTINATION_REPO="${SOURCE_REPO/${DESTINATION_REPO_REPLACE_OLD}/${DESTINATION_REPO_REPLACE_NEW}/}"
-            fi
-          fi
-          if [[ "${SOURCE_REPO}" == "${DESTINATION_REPO}" ]]; then
-            echo "vars.DESTINATION_REPO is empty or invalid"
-            exit 1
-          fi
 
+
+          if [[ -z "${DESTINATION_REPO}" ]]; then
+            DESTINATION_REPO_REPLACE_OLD="${DESTINATION_REPO_REPLACE_OLD:='-public'}"
+            DESTINATION_REPO="${SOURCE_REPO/${DESTINATION_REPO_REPLACE_OLD}/${DESTINATION_REPO_REPLACE_NEW}/}"
+          fi
           if [[ -z "${DESTINATION_BRANCH}" ]]; then
             DESTINATION_BRANCH=${SOURCE_BRANCH}
             if [[ -n "${DESTINATION_BRANCH_REPLACE_OLD}" ]]; then
               DESTINATION_BRANCH="${DESTINATION_BRANCH/${DESTINATION_BRANCH_REPLACE_OLD}/${DESTINATION_BRANCH_REPLACE_NEW}/}"
             fi
+          fi
+          echo "SOURCE_REPO=${SOURCE_REPO}"
+          echo "SOURCE_BRANCH=${SOURCE_BRANCH}"
+          echo "DESTINATION_REPO=${DESTINATION_REPO}"
+          echo "DESTINATION_BRANCH=${DESTINATION_BRANCH}"
+
+          if [[ "${SOURCE_REPO}" == "${DESTINATION_REPO}" ]]; then
+            echo "vars.DESTINATION_REPO is empty or invalid"
+            exit 1
           fi
 
           if ! echo $SOURCE_REPO | grep -Eq ':|@|\.git\/?$'; then
