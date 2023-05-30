@@ -123,12 +123,23 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.PRIVATE_KEY }}
 
-      - uses: actions/checkout@v3
-      - name: Deploy
-        uses: s0/git-publish-subdir-action@develop
-        env:
-          REPO: git@github.com:missuor/dev-public.git
-          BRANCH: master
-          FOLDER: '.'
-          SQUASH_HISTORY: true
-          SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      # - uses: actions/checkout@v3
+      # - name: Deploy
+      #   uses: s0/git-publish-subdir-action@develop
+      #   env:
+      #     REPO: git@github.com:missuor/dev-public.git
+      #     BRANCH: master
+      #     FOLDER: '.'
+      #     SQUASH_HISTORY: true
+      #     SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+
+      - name: git-sync
+        uses: wei/git-sync@v3
+        with:
+          source_repo: "git@github.com:missuor/dev.git"
+          source_branch: "public/images"
+          destination_repo: "git@github.com:missuor/dev-public.git"
+          destination_branch: "public/images"
+          ssh_private_key: ${{ secrets.PRIVATE_KEY }} # optional
+          # source_ssh_private_key: ${{ secrets.SOURCE_SSH_PRIVATE_KEY }} # optional, will override `SSH_PRIVATE_KEY`
+          # destination_ssh_private_key: ${{ secrets.DESTINATION_SSH_PRIVATE_KEY }} # optional, will override `SSH_PRIVATE_KEY`
