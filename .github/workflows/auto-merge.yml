@@ -16,7 +16,7 @@ jobs:
 
       - name: merge branch
         run: |
-          ssh -T git@github.com 2>/dev/null
+          ssh -T git@github.com || echo 111
           git config --list
           current_branch=$(git branch --show-current)
           repo=$(git remote get-url --push origin)
