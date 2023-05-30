@@ -41,29 +41,52 @@ jobs:
       - name: git-sync
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
           SOURCE_REPO: ${{ vars.SOURCE_REPO }}
           SOURCE_BRANCH: ${{ vars.SOURCE_BRANCH }}
+
           DESTINATION_REPO: ${{ vars.DESTINATION_REPO }}
+          DESTINATION_REPO_REPLACE_OLD: ${{ vars.DESTINATION_REPO_REPLACE_OLD }}
+          DESTINATION_REPO_REPLACE_NEW: ${{ vars.DESTINATION_REPO_REPLACE_NEW }}
           DESTINATION_BRANCH: ${{ vars.DESTINATION_BRANCH }}
+          DESTINATION_BRANCH_REPLACE_OLD: ${{ vars.DESTINATION_BRANCH_REPLACE_OLD }}
+          DESTINATION_BRANCH_REPLACE_NEW: ${{ vars.DESTINATION_BRANCH_REPLACE_NEW }}
+
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SOURCE_SSH_PRIVATE_KEY: ${{ secrets.SOURCE_SSH_PRIVATE_KEY }}
+          DESTINATION_SSH_PRIVATE_KEY: ${{ secrets.DESTINATION_SSH_PRIVATE_KEY }}
+
         run: |
-          which git || echo "no git"
-          which ssh || echo "no ssh"
-
           set -e
-
-          mkdir -p ~/.ssh
-          echo -e "Host *\n    StrictHostKeyChecking no" >~/.ssh/config
-          echo -e "$SSH_PRIVATE_KEY" >~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-
           SOURCE_REPO=${SOURCE_REPO:=${GITHUB_REPOSITORY}}
           SOURCE_BRANCH=${SOURCE_BRANCH:=${GITHUB_REF_NAME}}
-          DESTINATION_REPO=${DESTINATION_REPO:=${GITHUB_REPOSITORY/-public/}}
-          DESTINATION_BRANCH=${DESTINATION_BRANCH:=${GITHUB_REF_NAME}}
+
+          if [[ -z "${DESTINATION_REPO}" ]]; then
+            DESTINATION_REPO=${SOURCE_REPO}
+            DESTINATION_REPO_REPLACE_OLD="${DESTINATION_REPO_REPLACE_OLD:='-public'}"
+            if [[ -z "${DESTINATION_REPO}" && -n "${DESTINATION_REPO_REPLACE_OLD}" ]]; then
+              DESTINATION_REPO="${SOURCE_REPO/${DESTINATION_REPO_REPLACE_OLD}/${DESTINATION_REPO_REPLACE_NEW}/}"
+            fi
+          fi
+          if [[ "${SOURCE_REPO}" == "${DESTINATION_REPO}" ]]; then
+            echo "vars.DESTINATION_REPO is empty or invalid"
+            exit 1
+          fi
+
+          if [[ -z "${DESTINATION_BRANCH}" ]]; then
+            DESTINATION_BRANCH=${SOURCE_BRANCH}
+            if [[ -n "${DESTINATION_BRANCH_REPLACE_OLD}" ]]; then
+              DESTINATION_BRANCH="${DESTINATION_BRANCH/${DESTINATION_BRANCH_REPLACE_OLD}/${DESTINATION_BRANCH_REPLACE_NEW}/}"
+            fi
+          fi
 
           if ! echo $SOURCE_REPO | grep -Eq ':|@|\.git\/?$'; then
               if [[ -n "$SSH_PRIVATE_KEY" || -n "$SOURCE_SSH_PRIVATE_KEY" ]]; then
+                  mkdir -p ~/.ssh
+                  echo -e "Host *\n    StrictHostKeyChecking no" >~/.ssh/config
+                  echo -e "${SSH_PRIVATE_KEY}" >~/.ssh/id_rsa
+                  chmod 600 ~/.ssh/id_rsa
+
                   SOURCE_REPO="git@github.com:${SOURCE_REPO}.git"
                   GIT_SSH_COMMAND="ssh -v"
               else
@@ -83,8 +106,6 @@ jobs:
           echo "SOURCE=$SOURCE_REPO:$SOURCE_BRANCH"
           echo "DESTINATION=$DESTINATION_REPO:$DESTINATION_BRANCH"
           echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
-
-          ls ${GITHUB_WORKSPACE}
 
           if [[ -n "$SOURCE_SSH_PRIVATE_KEY" ]]; then
               # Clone using source ssh key if provided
