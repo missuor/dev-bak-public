@@ -28,7 +28,7 @@ jobs:
           git pull
           git checkout -b master origin/master --
           git log|head -20
-          exec "git pull"
+          echo "exec git pull"
           git pull
           git log|head -20
 
