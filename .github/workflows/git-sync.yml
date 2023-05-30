@@ -79,13 +79,13 @@ jobs:
           echo "DESTINATION=$DESTINATION_REPO:$DESTINATION_BRANCH"
           echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
 
-          cd ${GITHUB_WORKSPACE}
+          ls ${GITHUB_WORKSPACE}
 
           if [[ -n "$SOURCE_SSH_PRIVATE_KEY" ]]; then
               # Clone using source ssh key if provided
-              git clone -c core.sshCommand="/usr/bin/ssh -i ~/.ssh/src_rsa" "$SOURCE_REPO" /root/source --origin source && cd /root/source
+              git clone -c core.sshCommand="/usr/bin/ssh -i ~/.ssh/src_rsa" "$SOURCE_REPO" ${GITHUB_WORKSPACE} --origin source && cd ${GITHUB_WORKSPACE}
           else
-              git clone "$SOURCE_REPO" /root/source --origin source && cd /root/source
+              git clone "$SOURCE_REPO" ${GITHUB_WORKSPACE} --origin source && cd ${GITHUB_WORKSPACE}
           fi
 
           git remote add destination "$DESTINATION_REPO"
