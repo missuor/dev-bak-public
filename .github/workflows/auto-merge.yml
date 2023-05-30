@@ -79,13 +79,28 @@ jobs:
 
 
 
-    - name: Checkout
-      uses: actions/checkout@v3
+    # - name: Checkout
+    #   uses: actions/checkout@v3
 
-    - name: Up Merge
-      uses: bambamboole/gha-upmerge@main
+    # - name: Up Merge
+    #   uses: bambamboole/gha-upmerge@main
+    #   with:
+    #     from_branch: 'public/images'
+    #     to_branch: 'master'
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+
+    - uses: sanjeev-labs/manage-merge@v1.0
       with:
-        from_branch: 'public/images'
-        to_branch: 'master'
+        # Merge method, use one of possible values merge, squash or
+        # rebase. Default is merge.
+        merge_method: "merge"
+        # Name here target branch. Default is main
+        target_branch: "master"
+        #  Time zone to use. Default is UTC.
+        # time_zone: "America/New_York"
+        #  Branch label
+        # label_name: "merge-ready"
       env:
         GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
