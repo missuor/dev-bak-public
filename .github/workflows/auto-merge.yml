@@ -123,7 +123,7 @@ jobs:
         uses: s0/git-publish-subdir-action@develop
         env:
           REPO: git@github.com:missuor/dev-public.git
-          BRANCH: public/images
+          BRANCH: master
           FOLDER: '.'
           SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
