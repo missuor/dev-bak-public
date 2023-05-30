@@ -118,10 +118,10 @@ jobs:
           target_branch: master
           github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
-      - name: Add SSH key
-        uses: webfactory/ssh-agent@v0.8.0
-        with:
-          ssh-private-key: ${{ secrets.PRIVATE_KEY }}
+      # - name: Add SSH key
+      #   uses: webfactory/ssh-agent@v0.8.0
+      #   with:
+      #     ssh-private-key: ${{ secrets.PRIVATE_KEY }}
 
       # - uses: actions/checkout@v3
       # - name: Deploy
