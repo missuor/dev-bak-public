@@ -52,6 +52,11 @@ jobs:
 
           set -e
 
+          mkdir -p ~/.ssh
+          echo -e "Host *\n    StrictHostKeyChecking no" > ~/.ssh/config
+          echo -e "$SSH_PRIVATE_KEY" >~/.ssh/id_rsa
+          chmod 600 ~/.ssh/src_rsa
+
           SOURCE_REPO=${SOURCE_REPO:=${GITHUB_REPOSITORY}}
           SOURCE_BRANCH=${SOURCE_BRANCH:=${GITHUB_REF_NAME}}
           DESTINATION_REPO=${DESTINATION_REPO:=${GITHUB_REPOSITORY/-public/}}
