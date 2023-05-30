@@ -16,7 +16,7 @@ jobs:
 
       - name: merge branch
         run: |
-          ssh -T git@github.com || echo 111
+          ssh -T git@github.com || echo "ssh -T git@github.com err"
           git config --list
           current_branch=$(git branch --show-current)
           repo=$(git remote get-url --push origin)
@@ -34,11 +34,11 @@ jobs:
           git status
           git diff
           git branch -a
-          git merge ${current_branch} 2>/dev/null
+          git merge ${current_branch} || echo "git merge ${current_branch err"
           cat .github/workflows/auto-merge.yml
           git status
           git diff
-          git push
+          git push || echo "git push err"
 
           # git remote add public_repo $(echo ${repo} | sed 's/\.git/-public.git/g')
           # #git pull
