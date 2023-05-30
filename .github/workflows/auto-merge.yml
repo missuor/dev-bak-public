@@ -22,11 +22,15 @@ jobs:
           repo=$(git remote get-url --push origin)
           repo="$(git remote get-url --push origin | sed -e 's#https://github.com/#git@github.com:#g' -e 's#/$##g').git"
           echo "repo: ${repo} current_branch: ${current_branch}"
+          git log|head -20
 
           git remote set-url origin ${repo}
           git pull
           git checkout -b master origin/master --
-          # git pull
+          git log|head -20
+          exec "git pull"
+          git pull
+          git log|head -20
 
           git config user.name "GitHub Actions"
           git config user.email "<>"
