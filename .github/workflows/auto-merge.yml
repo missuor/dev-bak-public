@@ -129,4 +129,4 @@ jobs:
           REPO: git@github.com:missuor/dev-public.git
           BRANCH: master
           FOLDER: '.'
-          # SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
